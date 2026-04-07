@@ -255,7 +255,7 @@ const App = () => {
   const expertise = ["Video Editing", "Product Shoots", "Social Media Handling", "Professional Videography", "Motion Graphics", "Content Creation", "Graphic Designing", "Photography"];
   
   const software = [
-    { name: "Davinci Resolve", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4d/DaVinci_Resolve_Studio_17_logo.png" },
+    { name: "Davinci Resolve", icon: "https://cdn.simpleicons.org/davinciresolve" },
     { name: "After Effects", icon: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" },
     { name: "Premiere Pro", icon: "https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" },
     { name: "Photoshop", icon: "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" },
