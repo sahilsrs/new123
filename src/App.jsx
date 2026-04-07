@@ -1,27 +1,105 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Play, X, Mail, ArrowUpRight, MapPin, Globe, Download, Award, BookOpen, Music, Film, Smartphone, Sun, Moon, TrendingUp, CheckCircle2, Share2, Box, Mic, ExternalLink, Landmark, Quote, ShoppingBag, Sparkles, Disc, Briefcase, Phone } from 'lucide-react';
 import profileImage from './assets/profile-photo.jpeg';
+
+const DEFAULT_FALLBACK_IMG = "https://images.unsplash.com/photo-1492691523567-30730029ad0a?q=80&w=1000&auto=format&fit=crop";
+
+const getYoutubeId = (url = "") => {
+  const embedMatch = url.match(/\/embed\/([^/?]+)/);
+  if (embedMatch?.[1]) return embedMatch[1];
+
+  const shortMatch = url.match(/youtu\.be\/([^/?]+)/);
+  if (shortMatch?.[1]) return shortMatch[1];
+
+  const watchMatch = url.match(/[?&]v=([^&]+)/);
+  if (watchMatch?.[1]) return watchMatch[1];
+
+  const shortsMatch = url.match(/\/shorts\/([^/?]+)/);
+  if (shortsMatch?.[1]) return shortsMatch[1];
+
+  return null;
+};
+
+const getDriveId = (url = "") => {
+  const fileMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (fileMatch?.[1]) return fileMatch[1];
+
+  const openMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (openMatch?.[1]) return openMatch[1];
+
+  return null;
+};
+
+const getThumbnailSources = ({ url, thumb, fallback = DEFAULT_FALLBACK_IMG }) => {
+  const sources = [];
+
+  if (thumb) sources.push(thumb);
+
+  if (!url) {
+    sources.push(fallback);
+    return [...new Set(sources)];
+  }
+
+  const youtubeId = getYoutubeId(url);
+  if (youtubeId) {
+    sources.push(
+      `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
+      `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`,
+      `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`
+    );
+  }
+
+  const driveId = getDriveId(url);
+  if (driveId) {
+    sources.push(
+      `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600`,
+      `https://lh3.googleusercontent.com/d/${driveId}=w1600`,
+      `https://drive.google.com/uc?export=view&id=${driveId}`
+    );
+  }
+
+  if (!youtubeId && !driveId) {
+    sources.push(url);
+  }
+
+  sources.push(fallback);
+
+  return [...new Set(sources.filter(Boolean))];
+};
+
+const ThumbnailImage = ({ url, thumb, alt, className, fallback = DEFAULT_FALLBACK_IMG }) => {
+  const sources = useMemo(
+    () => getThumbnailSources({ url, thumb, fallback }),
+    [url, thumb, fallback]
+  );
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [sources]);
+
+  const handleError = () => {
+    setActiveIndex((current) => (current < sources.length - 1 ? current + 1 : current));
+  };
+
+  return (
+    <img
+      src={sources[activeIndex]}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+      onError={handleError}
+    />
+  );
+};
 
 const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Helper to extract Google Drive ID and create a reliable thumbnail link
-  const getThumbnail = (url) => {
-    if (!url) return "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1000&auto=format&fit=crop";
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const id = url.split('embed/')[1]?.split('?')[0] || url.split('v=')[1]?.split('&')[0] || url.split('shorts/')[1]?.split('?')[0];
-      return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-    }
-    if (url.includes('drive.google.com')) {
-      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      const id = match ? match[1] : null;
-      return id ? `https://lh3.googleusercontent.com/d/${id}` : url;
-    }
-    return url;
-  };
-
-  const fallbackImg = "https://images.unsplash.com/photo-1492691523567-30730029ad0a?q=80&w=1000&auto=format&fit=crop";
+  const fallbackImg = DEFAULT_FALLBACK_IMG;
 
   // Contact Constants
   const contactInfo = {
@@ -32,59 +110,65 @@ const App = () => {
 
   // 1. Podcast Highlights
   const podcasts = [
-    { id: "pod-1", title: "Podcast Highlight #1", platform: "YouTube", url: "https://www.youtube.com/embed/AsxI829nfnY" },
-    { id: "pod-2", title: "Podcast Highlight #2", platform: "YouTube", url: "https://www.youtube.com/embed/drCYpsql3HI" },
-    { id: "pod-3", title: "Podcast Highlight #3", platform: "YouTube", url: "https://www.youtube.com/embed/Q_DlpZz827s" },
-    { id: "pod-4", title: "Podcast Highlight #4", platform: "Google Drive", url: "https://drive.google.com/file/d/1cvISx8C0136p3ieZ6HJjqKT9UpI0YPDA/preview" }
+    { id: "pod-1", title: "Podcast Highlight #1", platform: "YouTube", url: "https://www.youtube.com/embed/AsxI829nfnY", thumb: "/thumbnails/pod-1.jpg" },
+    { id: "pod-2", title: "Podcast Highlight #2", platform: "YouTube", url: "https://www.youtube.com/embed/drCYpsql3HI", thumb: "/thumbnails/pod-2.jpg" },
+    { id: "pod-3", title: "Podcast Highlight #3", platform: "YouTube", url: "https://www.youtube.com/embed/Q_DlpZz827s", thumb: "/thumbnails/pod-3.jpg" },
+    { id: "pod-4", title: "Podcast Highlight #4", platform: "Google Drive", url: "https://drive.google.com/file/d/1cvISx8C0136p3ieZ6HJjqKT9UpI0YPDA/preview", thumb: "/thumbnails/pod-4.jpg" }
   ];
 
   // 2. Motion Graphics
   const motionGraphics = [
-    { id: "motion-1", title: "Visual Narrative Explainer", category: "Infographics / Motion", url: "https://drive.google.com/file/d/1aE0I16SNjLbVIDROXAYYGgmgb3Inn68j/preview" },
-    { id: "motion-2", title: "Dynamic Typography", category: "Title Design", url: "https://drive.google.com/file/d/1sUQC77Ydpi4rJMuFWXVbNRsngYQUwgf8/preview" },
-    { id: "motion-3", title: "Abstract Motion Flow", category: "Experimental", url: "https://drive.google.com/file/d/1Tp-FZx_bxsRvaxqKsmEAFJcEy24MwiCX/preview" },
-    { id: "motion-4", title: "Brand Logo Reveal", category: "VFX / Animation", url: "https://drive.google.com/file/d/1C6C_NVWX4zeWaPrp-XfCxMysS4buQEAJ/preview" }
+    { id: "motion-1", title: "Visual Narrative Explainer", category: "Infographics / Motion", url: "https://drive.google.com/file/d/1aE0I16SNjLbVIDROXAYYGgmgb3Inn68j/preview", thumb: "/thumbnails/motion-1.jpg" },
+    { id: "motion-2", title: "Dynamic Typography", category: "Title Design", url: "https://drive.google.com/file/d/1sUQC77Ydpi4rJMuFWXVbNRsngYQUwgf8/preview", thumb: "/thumbnails/motion-2.jpg" },
+    { id: "motion-3", title: "Abstract Motion Flow", category: "Experimental", url: "https://drive.google.com/file/d/1Tp-FZx_bxsRvaxqKsmEAFJcEy24MwiCX/preview", thumb: "/thumbnails/motion-3.jpg" },
+    { id: "motion-4", title: "Brand Logo Reveal", category: "VFX / Animation", url: "https://drive.google.com/file/d/1C6C_NVWX4zeWaPrp-XfCxMysS4buQEAJ/preview", thumb: "/thumbnails/motion-4.jpg" }
   ];
 
   // 3. Testimonials
   const testimonials = [
-    { id: "test-1", title: "Client Feedback #1", client: "Brand Partner", url: "https://drive.google.com/file/d/18GO8NAu2Mfqa2J-N7iCE-34lfnbhzJhC/preview" },
-    { id: "test-2", title: "Client Feedback #2", client: "Creative Director", url: "https://drive.google.com/file/d/12pf7Nfa7DcvDjWH2rUZHSKjGUlfX0AfQ/preview" },
-    { id: "test-3", title: "Client Feedback #3", client: "Music Producer", url: "https://drive.google.com/file/d/1GLbWysDZs497pwXGqruDysHaj5Doj5CS/preview" }
+    { id: "test-1", title: "Client Feedback #1", client: "Brand Partner", url: "https://drive.google.com/file/d/18GO8NAu2Mfqa2J-N7iCE-34lfnbhzJhC/preview", thumb: "/thumbnails/test-1.jpg" },
+    { id: "test-2", title: "Client Feedback #2", client: "Creative Director", url: "https://drive.google.com/file/d/12pf7Nfa7DcvDjWH2rUZHSKjGUlfX0AfQ/preview", thumb: "/thumbnails/test-2.jpg" },
+    { id: "test-3", title: "Client Feedback #3", client: "Music Producer", url: "https://drive.google.com/file/d/1GLbWysDZs497pwXGqruDysHaj5Doj5CS/preview", thumb: "/thumbnails/test-3.jpg" }
   ];
 
   // 4. BFSI
   const bfsiProjects = [
-    { id: "bfsi-1", title: "Corporate Finance Narrative", category: "BFSI / Commercial", url: "https://drive.google.com/file/d/1o85NXR7EPACRb0yoddQxDJtTi2eFtm1d/preview" },
-    { id: "bfsi-2", title: "Banking System Showcase", category: "BFSI / Motion Graphics", url: "https://drive.google.com/file/d/1YrYdfK9nh0XMiKdHRKY01tffAC2Lve-E/preview" }
+    { id: "bfsi-1", title: "Corporate Finance Narrative", category: "BFSI / Commercial", url: "https://drive.google.com/file/d/1o85NXR7EPACRb0yoddQxDJtTi2eFtm1d/preview", thumb: "/thumbnails/bfsi-1.jpg" },
+    { id: "bfsi-2", title: "Banking System Showcase", category: "BFSI / Motion Graphics", url: "https://drive.google.com/file/d/1YrYdfK9nh0XMiKdHRKY01tffAC2Lve-E/preview", thumb: "/thumbnails/bfsi-2.jpg" }
   ];
 
   // 5. Music
   const musicProjects = [
-    { id: "music-1", title: "AT Azaad Visual", url: "https://www.instagram.com/reel/DWnhtvUIUnY/embed", thumb: "https://images.unsplash.com/photo-1514525253361-bee8a48700df?q=80&w=1000&auto=format&fit=crop" },
-    { id: "music-2", title: "Rhythmic Flow", url: "https://www.instagram.com/reels/DVTZjS4DJ8y/embed", thumb: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1000&auto=format&fit=crop" },
-    { id: "music-3", title: "Label Showcase", url: "https://www.instagram.com/reel/DUGB0FWjJQg/embed", thumb: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=1000&auto=format&fit=crop" },
-    { id: "music-4", title: "Artist Spotlight", url: "https://www.instagram.com/reel/DWT0BiiiC40/embed", thumb: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1000&auto=format&fit=crop" },
-    { id: "music-5", title: "Studio Sessions", url: "https://www.instagram.com/p/DWI0UkwCO5L/embed", thumb: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1000&auto=format&fit=crop" },
-    { id: "music-6", title: "Visual Narrative", url: "https://www.instagram.com/p/DTh3q6iiF68/embed", thumb: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000&auto=format&fit=crop" }
+    { id: "music-1", title: "AT Azaad Visual", url: "https://www.instagram.com/reel/DWnhtvUIUnY/embed", thumb: "/thumbnails/music-1.jpg" },
+    { id: "music-2", title: "Rhythmic Flow", url: "https://www.instagram.com/reels/DVTZjS4DJ8y/embed", thumb: "/thumbnails/music-2.jpg" },
+    { id: "music-3", title: "Label Showcase", url: "https://www.instagram.com/reel/DUGB0FWjJQg/embed", thumb: "/thumbnails/music-3.jpg" },
+    { id: "music-4", title: "Artist Spotlight", url: "https://www.instagram.com/reel/DWT0BiiiC40/embed", thumb: "/thumbnails/music-4.jpg" },
+    { id: "music-5", title: "Studio Sessions", url: "https://www.instagram.com/p/DWI0UkwCO5L/embed", thumb: "/thumbnails/music-5.jpg" },
+    { id: "music-6", title: "Visual Narrative", url: "https://www.instagram.com/p/DTh3q6iiF68/embed", thumb: "/thumbnails/music-6.jpg" }
   ];
 
   // 6. Licious
   const liciousProjects = [
-    { id: "licious-1", title: "Licious Brand Showcase", category: "Retail / Food Brand", url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/preview" },
-    { id: "licious-2", title: "Licious Product Narrative", category: "Commercial / Editorial", url: "https://drive.google.com/file/d/1usUA8kWO_kv5tsJjIreNKDobeADdo_T2/preview" }
+    { id: "licious-1", title: "Licious Brand Showcase", category: "Retail / Food Brand", url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/preview", thumb: "/thumbnails/licious-1.jpg" },
+    { id: "licious-2", title: "Licious Product Narrative", category: "Commercial / Editorial", url: "https://drive.google.com/file/d/1usUA8kWO_kv5tsJjIreNKDobeADdo_T2/preview", thumb: "/thumbnails/licious-2.jpg" }
   ];
 
   // 7. Fashion
   const fashionProjects = [
-    { id: "fashion-1", title: "Cinematic Fashion Edit I", category: "Fashion / Lifestyle", url: "https://drive.google.com/file/d/1igcqQPy9YScTuelb40Nvwb5pfp-uKvRH/preview" },
-    { id: "fashion-2", title: "Cinematic Fashion Edit II", category: "Fashion / Visuals", url: "https://drive.google.com/file/d/1XkwIXnIXKM9iWtRN55lSOa2e30oE3y0m/preview" },
-    { id: "fashion-3", title: "Cinematic Fashion Edit III", category: "Fashion / Editorial", url: "https://drive.google.com/file/d/1dxgO9G-iiA3As--83xpH--_p0yYdLZXP/preview" }
+    { id: "fashion-1", title: "Cinematic Fashion Edit I", category: "Fashion / Lifestyle", url: "https://drive.google.com/file/d/1igcqQPy9YScTuelb40Nvwb5pfp-uKvRH/preview", thumb: "/thumbnails/fashion-1.jpg" },
+    { id: "fashion-2", title: "Cinematic Fashion Edit II", category: "Fashion / Visuals", url: "https://drive.google.com/file/d/1XkwIXnIXKM9iWtRN55lSOa2e30oE3y0m/preview", thumb: "/thumbnails/fashion-2.jpg" },
+    { id: "fashion-3", title: "Cinematic Fashion Edit III", category: "Fashion / Editorial", url: "https://drive.google.com/file/d/1dxgO9G-iiA3As--83xpH--_p0yYdLZXP/preview", thumb: "/thumbnails/fashion-3.jpg" }
   ];
 
   // 8. Corporate
   const corporateProjects = [
-    { id: "corp-1", title: "Corporate Brand Narrative", category: "Corporate / B2B", url: "https://drive.google.com/file/d/12JMTvtuoccreU0VJiF-RF0j4yeDU9Pn6/preview" }
+    {
+      id: "corp-1",
+      title: "Corporate Brand Narrative",
+      category: "Corporate / B2B",
+      url: "https://drive.google.com/file/d/12JMTvtuoccreU0VJiF-RF0j4yeDU9Pn6/preview",
+      thumb: "/thumbnails/corp-1.jpg"
+    }
   ];
 
   // Featured projects for the bottom section
@@ -96,6 +180,7 @@ const App = () => {
       year: "2026",
       role: "Lead Editor / Motion Designer",
       url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/preview",
+      thumb: "/thumbnails/featured-0.jpg",
       description: "A comprehensive showcase of cinematic editing, high-energy transitions, and advanced color grading work."
     },
     {
@@ -105,6 +190,7 @@ const App = () => {
       year: "2024",
       role: "Senior Video Editor",
       url: "https://drive.google.com/file/d/1vSLFCrqKRd1DOiC1AY8HJ9col-_lgI86/preview",
+      thumb: "/thumbnails/featured-5.jpg",
       description: "A high-performance brand film focusing on visual storytelling and rhythmic editing for a premium retail audience."
     }
   ];
@@ -259,7 +345,13 @@ const App = () => {
           {podcasts.map((pod) => (
             <div key={pod.id} onClick={() => setSelectedProject({ ...pod, isVertical: true })} className="group cursor-pointer space-y-4">
               <div className={`aspect-[9/16] w-full overflow-hidden rounded-2xl border transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900' : 'border-zinc-200 bg-white'}`}>
-                <img src={getThumbnail(pod.url)} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" alt={pod.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={pod.url}
+                  thumb={pod.thumb}
+                  alt={pod.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <div className="p-4 bg-red-600 rounded-full text-white shadow-xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={24} fill="currentColor" /></div>
                 </div>
@@ -280,7 +372,13 @@ const App = () => {
           {motionGraphics.map((item) => (
             <div key={item.id} onClick={() => setSelectedProject({ ...item, videoUrl: item.url, role: item.category })} className="group cursor-pointer flex flex-col md:flex-row gap-6 p-6 transition-all border border-transparent hover:border-zinc-800 hover:bg-zinc-900/40 rounded-xl">
               <div className="w-full md:w-56 aspect-video overflow-hidden rounded-lg relative bg-zinc-900 border border-zinc-800 shrink-0">
-                <img src={getThumbnail(item.url)} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={item.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={item.url}
+                  thumb={item.thumb}
+                  alt={item.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><Play size={24} className="text-white fill-white" /></div>
               </div>
               <div className="flex-1 flex flex-col justify-center">
@@ -302,7 +400,13 @@ const App = () => {
           {testimonials.map((test) => (
             <div key={test.id} onClick={() => setSelectedProject({ ...test, videoUrl: test.url })} className="group cursor-pointer space-y-6">
               <div className={`aspect-video w-full overflow-hidden rounded-xl border-2 transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-red-600/50' : 'border-zinc-200 bg-white group-hover:border-red-600/30 shadow-sm'}`}>
-                <img src={getThumbnail(test.url)} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100" alt={test.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={test.url}
+                  thumb={test.thumb}
+                  alt={test.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100"
+                />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><div className="p-4 bg-white text-red-600 rounded-full shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={20} fill="currentColor" /></div></div>
               </div>
               <div className="px-2 border-l-2 border-red-600/20 group-hover:border-red-600 transition-colors pl-4">
@@ -324,7 +428,13 @@ const App = () => {
           {bfsiProjects.map((project) => (
             <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
               <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
@@ -347,7 +457,13 @@ const App = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {musicProjects.map((music) => (
             <div key={music.id} onClick={() => setSelectedProject({ ...music, videoUrl: music.url, isVertical: true })} className="group cursor-pointer aspect-square relative overflow-hidden rounded-md border border-zinc-800 bg-zinc-900">
-              <img src={music.thumb} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100" alt={music.title} onError={(e) => e.target.src = fallbackImg}/>
+              <ThumbnailImage
+                url={music.url}
+                thumb={music.thumb}
+                alt={music.title}
+                fallback={fallbackImg}
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
                 <p className="text-[10px] font-black uppercase tracking-tighter text-white">{music.title}</p>
                 <div className="mt-2 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center"><Play size={10} className="fill-white text-white" /></div>
@@ -367,7 +483,13 @@ const App = () => {
           {liciousProjects.map((project) => (
             <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
               <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
@@ -389,7 +511,13 @@ const App = () => {
           {fashionProjects.map((project) => (
             <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
               <div className={`aspect-[4/5] w-full overflow-hidden rounded-xl border-2 transition-all duration-700 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-red-600/50' : 'border-zinc-200 bg-white group-hover:border-red-600/30'}`}>
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-105 group-hover:scale-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-105 group-hover:scale-100"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={40} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6 px-2">
@@ -411,7 +539,13 @@ const App = () => {
           {corporateProjects.map((project) => (
             <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
               <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
@@ -444,7 +578,13 @@ const App = () => {
           {featuredProjects.map((project) => (
             <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
               <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-sm">
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                />
                 <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest z-10">Featured</div>
               </div>
               <div className="mt-6 flex justify-between items-start">
