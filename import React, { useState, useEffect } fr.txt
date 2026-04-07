@@ -86,28 +86,6 @@ const App = () => {
     { id: "corp-1", title: "Corporate Brand Narrative", category: "Corporate / B2B", url: "https://drive.google.com/file/d/12JMTvtuoccreU0VJiF-RF0j4yeDU9Pn6/preview" }
   ];
 
-  // Featured projects for the bottom section
-  const featuredProjects = [
-    {
-      id: 0,
-      title: "OFFICIAL SHOWREEL",
-      client: "Komal Tatke",
-      year: "2026",
-      role: "Lead Editor / Motion Designer",
-      url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/preview",
-      description: "A comprehensive showcase of cinematic editing, high-energy transitions, and advanced color grading work."
-    },
-    {
-      id: 5,
-      title: "DROOLS x BRAND CAMPAIGN",
-      client: "Drools / Cutting Fillums",
-      year: "2024",
-      role: "Senior Video Editor",
-      url: "https://drive.google.com/file/d/1vSLFCrqKRd1DOiC1AY8HJ9col-_lgI86/preview",
-      description: "A high-performance brand film focusing on visual storytelling and rhythmic editing for a premium retail audience."
-    }
-  ];
-
   const experience = [
     { role: "Creative Designer & Video Editor", company: "OneNative Studio", year: "2026" },
     { role: "Senior Video Editor", company: "Cutting Fillums Entertainment", year: "2023" },
@@ -250,7 +228,7 @@ const App = () => {
             <Mic className="text-red-600" size={32} />
             <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Podcast <span className="text-red-600 italic">Highlights</span></h3>
           </div>
-          <a href="https://drive.google.com/drive/folders/1o37O-yUNTxqv00tyQm4bpaF1TzxBKny0" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-red-600/30 hover:border-red-600' : 'border-red-200 hover:border-red-600'}`}>
+          <a href="https://drive.google.com/drive/folders/1t-00k01G3PWByBHh6Fgvj6GE9LFFRaRX" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-red-600/30 hover:border-red-600' : 'border-red-200 hover:border-red-600'}`}>
             View Full Library <ExternalLink size={14} />
           </a>
         </div>
@@ -433,25 +411,6 @@ const App = () => {
             <div className="flex items-center gap-3 mb-12"><ArrowUpRight className="text-red-600" size={32} /><h3 className="text-3xl font-black uppercase tracking-tighter">Experience</h3></div>
             <div className="space-y-10">{experience.map((item, index) => (<div key={index} className={`relative pb-6 border-b transition-all group ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><div className="flex justify-between items-start"><div><h4 className="text-lg font-bold uppercase tracking-tight group-hover:text-red-500 transition-colors">{item.role}</h4><p className="text-sm text-zinc-500 mt-1 uppercase tracking-widest">{item.company}</p></div><span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-sm">{item.year}</span></div></div>))}</div>
           </div>
-        </div>
-      </section>
-
-      {/* SHOWREEL & FEATURED */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-16">Featured Highlights</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {featuredProjects.map((project) => (
-            <div key={project.id} onClick={() => setSelectedProject({ ...project, videoUrl: project.url })} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-sm">
-                <img src={getThumbnail(project.url)} className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100" alt={project.title} onError={(e) => e.target.src = fallbackImg}/>
-                <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest z-10">Featured</div>
-              </div>
-              <div className="mt-6 flex justify-between items-start">
-                <div><h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors">{project.title}</h4></div>
-                <div className={`p-4 border rounded-full transition-all group-hover:bg-red-600 group-hover:border-red-600 group-hover:text-white ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><Play size={20} fill="currentColor" /></div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

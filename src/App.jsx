@@ -217,30 +217,6 @@ const App = () => {
     }
   ];
 
-  // Featured projects for the bottom section
-  const featuredProjects = [
-    {
-      id: 0,
-      title: "OFFICIAL SHOWREEL",
-      client: "Komal Tatke",
-      year: "2026",
-      role: "Lead Editor / Motion Designer",
-      url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/view?usp=sharing",
-      thumb: "/thumbnails/featured-0.jpg",
-      description: "A comprehensive showcase of cinematic editing, high-energy transitions, and advanced color grading work."
-    },
-    {
-      id: 5,
-      title: "DROOLS x BRAND CAMPAIGN",
-      client: "Drools / Cutting Fillums",
-      year: "2024",
-      role: "Senior Video Editor",
-      url: "https://drive.google.com/file/d/1vSLFCrqKRd1DOiC1AY8HJ9col-_lgI86/view?usp=sharing",
-      thumb: "/thumbnails/featured-5.jpg",
-      description: "A high-performance brand film focusing on visual storytelling and rhythmic editing for a premium retail audience."
-    }
-  ];
-
   const expertise = ["Video Editing", "Product Shoots", "Social Media Handling", "Professional Videography", "Motion Graphics", "Content Creation", "Graphic Designing", "Photography"];
   
   const software = [
@@ -372,7 +348,7 @@ const App = () => {
             <Mic className="text-yellow-400" size={32} />
             <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Podcast <span className="text-yellow-400 italic">Highlights</span></h3>
           </div>
-          <a href="https://drive.google.com/drive/folders/1o37O-yUNTxqv00tyQm4bpaF1TzxBKny0" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-yellow-400/30 hover:border-yellow-400' : 'border-yellow-200 hover:border-yellow-400'}`}>
+          <a href="https://drive.google.com/drive/folders/1t-00k01G3PWByBHh6Fgvj6GE9LFFRaRX" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-yellow-400/30 hover:border-yellow-400' : 'border-yellow-200 hover:border-yellow-400'}`}>
             View Full Library <ExternalLink size={14} />
           </a>
         </div>
@@ -585,31 +561,6 @@ const App = () => {
               <div className="mt-6">
                 <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
                 <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SHOWREEL & FEATURED */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-16">Featured Highlights</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {featuredProjects.map((project) => (
-            <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-sm">
-                <ThumbnailImage
-                  url={project.url}
-                  thumb={project.thumb}
-                  alt={project.title}
-                  fallback={fallbackImg}
-                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
-                />
-                <div className="absolute top-4 left-4 bg-yellow-400 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest z-10">Featured</div>
-              </div>
-              <div className="mt-6 flex justify-between items-start">
-                <div><h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4></div>
-                <div className={`p-4 border rounded-full transition-all group-hover:bg-yellow-400 group-hover:border-yellow-400 group-hover:text-white ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><Play size={20} fill="currentColor" /></div>
               </div>
             </div>
           ))}
