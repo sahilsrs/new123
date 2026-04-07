@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Play, X, Mail, ArrowUpRight, MapPin, Globe, Download, Award, BookOpen, Music, Film, Smartphone, Sun, Moon, TrendingUp, CheckCircle2, Share2, Box, Mic, ExternalLink, Landmark, Quote, ShoppingBag, Sparkles, Disc, Briefcase, Phone } from 'lucide-react';
+import profileImage from './assets/profile-photo.jpeg';
 
 const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -148,7 +149,7 @@ const App = () => {
         </div>
         <div className="relative z-10 w-full max-w-lg md:max-w-2xl px-4 flex flex-col items-center">
           <div className="relative aspect-[3/4] w-64 md:w-80 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 ease-in-out shadow-2xl rounded-sm">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" alt="Komal Tatke" className="w-full h-full object-cover" onError={(e) => e.target.src = fallbackImg}/>
+            <img src={profileImage} alt="Komal Tatke" className="w-full h-full object-cover" onError={(e) => e.target.src = fallbackImg}/>
             <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${isDarkMode ? 'from-zinc-950' : 'from-stone-50'}`}></div>
           </div>
           <div className="mt-8 text-center md:absolute md:bottom-[-20%] md:left-[-10%] md:text-left">
@@ -189,7 +190,7 @@ const App = () => {
             <div className="absolute -left-4 -top-4 w-full h-full border-2 border-red-600 z-0"></div>
             <div className="relative z-10 aspect-[4/5] overflow-hidden grayscale-0 hover:grayscale-0 transition-all duration-700 bg-zinc-800 rounded-sm shadow-xl">
                <img 
-                 src="https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?q=80&w=1000&auto=format&fit=crop"
+                 src={profileImage}
                  className="w-full h-full object-cover" 
                  alt="Komal Datta Tatke" 
                  onError={(e) => {
