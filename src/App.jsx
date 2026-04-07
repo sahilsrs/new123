@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Play, X, Mail, ArrowUpRight, MapPin, Globe, Download, Award, BookOpen, Music, Film, Smartphone, Sun, Moon, TrendingUp, CheckCircle2, Share2, Box, Mic, ExternalLink, Landmark, Quote, ShoppingBag, Sparkles, Disc, Briefcase, Phone } from 'lucide-react';
 import profileImage from './assets/profile-photo.jpeg';
+import davinciLogo from './assets/davinci-resolve-logo-from-doc.png';
 
 const DEFAULT_FALLBACK_IMG = "https://images.unsplash.com/photo-1492691523567-30730029ad0a?q=80&w=1000&auto=format&fit=crop";
 
@@ -150,10 +151,10 @@ const App = () => {
 
   // 2. Motion Graphics
   const motionGraphics = [
-    { id: "motion-1", title: "Visual Narrative Explainer", category: "Infographics / Motion", url: "https://drive.google.com/file/d/1aE0I16SNjLbVIDROXAYYGgmgb3Inn68j/view?usp=sharing", thumb: "/thumbnails/motion-1.jpg" },
-    { id: "motion-2", title: "Dynamic Typography", category: "Title Design", url: "https://drive.google.com/file/d/1sUQC77Ydpi4rJMuFWXVbNRsngYQUwgf8/view?usp=sharing", thumb: "/thumbnails/motion-2.jpg" },
-    { id: "motion-3", title: "Abstract Motion Flow", category: "Experimental", url: "https://drive.google.com/file/d/1Tp-FZx_bxsRvaxqKsmEAFJcEy24MwiCX/view?usp=sharing", thumb: "/thumbnails/motion-3.jpg" },
-    { id: "motion-4", title: "Brand Logo Reveal", category: "VFX / Animation", url: "https://drive.google.com/file/d/1C6C_NVWX4zeWaPrp-XfCxMysS4buQEAJ/view?usp=sharing", thumb: "/thumbnails/motion-4.jpg" }
+    { id: "motion-1", title: "Royal Sundara", category: "Infographics / Motion", url: "https://drive.google.com/file/d/1aE0I16SNjLbVIDROXAYYGgmgb3Inn68j/view?usp=sharing", thumb: "/thumbnails/motion-1.jpg" },
+    { id: "motion-2", title: "HDFC Sky", category: "Title Design", url: "https://drive.google.com/file/d/1sUQC77Ydpi4rJMuFWXVbNRsngYQUwgf8/view?usp=sharing", thumb: "/thumbnails/motion-2.jpg" },
+    { id: "motion-3", title: "Athena", category: "Experimental", url: "https://drive.google.com/file/d/1Tp-FZx_bxsRvaxqKsmEAFJcEy24MwiCX/view?usp=sharing", thumb: "/thumbnails/motion-3.jpg" },
+    { id: "motion-4", title: "Utkarsh Small Finance Bank", category: "VFX / Animation", url: "https://drive.google.com/file/d/1C6C_NVWX4zeWaPrp-XfCxMysS4buQEAJ/view?usp=sharing", thumb: "/thumbnails/motion-4.jpg" }
   ];
 
   // 3. Testimonials
@@ -165,8 +166,8 @@ const App = () => {
 
   // 4. BFSI
   const bfsiProjects = [
-    { id: "bfsi-1", title: "Corporate Finance Narrative", category: "BFSI / Commercial", url: "https://drive.google.com/file/d/1o85NXR7EPACRb0yoddQxDJtTi2eFtm1d/view?usp=sharing", thumb: "/thumbnails/bfsi-1.jpg" },
-    { id: "bfsi-2", title: "Banking System Showcase", category: "BFSI / Motion Graphics", url: "https://drive.google.com/file/d/1YrYdfK9nh0XMiKdHRKY01tffAC2Lve-E/view?usp=sharing", thumb: "/thumbnails/bfsi-2.jpg" }
+    { id: "bfsi-1", title: "HDFC Sky Campaign", category: "BFSI / Commercial", url: "https://drive.google.com/file/d/1o85NXR7EPACRb0yoddQxDJtTi2eFtm1d/view?usp=sharing", thumb: "/thumbnails/bfsi-1.jpg" },
+    { id: "bfsi-2", title: "Utkarsh Small Finance Bank Campaign", category: "BFSI / Motion Graphics", url: "https://drive.google.com/file/d/1YrYdfK9nh0XMiKdHRKY01tffAC2Lve-E/view?usp=sharing", thumb: "/thumbnails/bfsi-2.jpg" }
   ];
 
   // 5. Music
@@ -240,31 +241,18 @@ const App = () => {
     }
   ];
 
-  const experience = [
-    { role: "Creative Designer & Video Editor", company: "OneNative Studio", year: "2026" },
-    { role: "Senior Video Editor", company: "Cutting Fillums Entertainment", year: "2023" },
-    { role: "Senior Video Editor", company: "Avadhut Sathe Trading Academy", year: "2022" },
-    { role: "Video Editor", company: "Mahesh Tutorial", year: "2021" }
-  ];
-
-  const education = [
-    { degree: "M.A. English Literature", institution: "University of Mumbai", year: "2023" },
-    { degree: "BA Mass Media (Advertising)", institution: "Smt. P.N Doshi College", year: "2022" }
-  ];
-
   const expertise = ["Video Editing", "Product Shoots", "Social Media Handling", "Professional Videography", "Motion Graphics", "Content Creation", "Graphic Designing", "Photography"];
   
   const software = [
-    { name: "Davinci Resolve", icon: "https://cdn.simpleicons.org/davinciresolve" },
+    { name: "Davinci Resolve", icon: davinciLogo },
     { name: "After Effects", icon: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" },
     { name: "Premiere Pro", icon: "https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" },
     { name: "Photoshop", icon: "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" },
-    { name: "Illustrator", icon: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" },
-    { name: "Figma", icon: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" }
+    { name: "Illustrator", icon: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" }
   ];
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-zinc-950 text-white' : 'bg-stone-50 text-zinc-900'} font-sans transition-colors duration-500 overflow-x-hidden pb-20`}>
+    <div className={`hq-grain ${isDarkMode ? 'hq-grain-dark bg-zinc-950 text-white' : 'hq-grain-light bg-stone-50 text-zinc-900'} min-h-screen font-sans transition-colors duration-500 overflow-x-hidden pb-20`}>
       
       {/* HERO SECTION */}
       <section className={`relative h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
@@ -279,12 +267,12 @@ const App = () => {
           <h1 className={`text-[22vw] font-black tracking-tighter leading-none opacity-[0.08] ${isDarkMode ? 'text-white' : 'text-black'}`}>PORTFOLIO</h1>
         </div>
         <div className="relative z-10 w-full max-w-lg md:max-w-2xl px-4 flex flex-col items-center">
-          <div className="relative aspect-[3/4] w-64 md:w-80 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 ease-in-out shadow-2xl rounded-sm">
+          <div className="relative aspect-[3/4] w-64 md:w-80 overflow-hidden transition-all duration-700 ease-in-out shadow-2xl rounded-sm">
             <img src={profileImage} alt="Komal Tatke" className="w-full h-full object-cover" onError={(e) => e.target.src = fallbackImg}/>
             <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${isDarkMode ? 'from-zinc-950' : 'from-stone-50'}`}></div>
           </div>
           <div className="mt-8 text-center md:absolute md:bottom-[-20%] md:left-[-10%] md:text-left">
-            <p className="text-2xl md:text-4xl font-bold tracking-tight"><span className="text-red-600 mr-4 font-normal">//</span>Komal Tatke</p>
+            <p className="text-2xl md:text-4xl font-bold tracking-tight"><span className="text-yellow-400 mr-4 font-normal">//</span>Komal Tatke</p>
             <p className="text-xl md:text-2xl font-light text-zinc-500 mt-1 uppercase tracking-widest">Video Editor / Visual Designer</p>
           </div>
         </div>
@@ -293,20 +281,20 @@ const App = () => {
       {/* CONTACT STRIP */}
       <div className={`w-full py-6 border-b ${isDarkMode ? 'bg-zinc-900/50 border-zinc-800' : 'bg-white border-zinc-200 shadow-sm'}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-          <a href={`tel:${contactInfo.phone}`} className="flex items-center gap-3 group transition-colors hover:text-red-600">
-            <div className="p-2 bg-red-600/10 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all">
+          <a href={`tel:${contactInfo.phone}`} className="flex items-center gap-3 group transition-colors hover:text-yellow-400">
+            <div className="p-2 bg-yellow-400/10 rounded-full group-hover:bg-yellow-400 group-hover:text-white transition-all">
               <Phone size={16} />
             </div>
             <span className="text-sm font-mono tracking-widest">{contactInfo.phone}</span>
           </a>
-          <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-3 group transition-colors hover:text-red-600">
-            <div className="p-2 bg-red-600/10 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all">
+          <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-3 group transition-colors hover:text-yellow-400 max-w-full">
+            <div className="p-2 bg-yellow-400/10 rounded-full group-hover:bg-yellow-400 group-hover:text-white transition-all">
               <Mail size={16} />
             </div>
-            <span className="text-sm font-mono tracking-widest uppercase">{contactInfo.email}</span>
+            <span className="text-sm font-mono tracking-wide normal-case break-all md:break-normal">{contactInfo.email}</span>
           </a>
-          <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group transition-colors hover:text-red-600">
-            <div className="p-2 bg-red-600/10 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all">
+          <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group transition-colors hover:text-yellow-400">
+            <div className="p-2 bg-yellow-400/10 rounded-full group-hover:bg-yellow-400 group-hover:text-white transition-all">
               <Globe size={16} />
             </div>
             <span className="text-sm font-bold uppercase tracking-widest">LinkedIn Profile</span>
@@ -318,12 +306,12 @@ const App = () => {
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           <div className="relative w-full max-w-sm shrink-0">
-            <div className="absolute -left-4 -top-4 w-full h-full border-2 border-red-600 z-0"></div>
-            <div className="relative z-10 aspect-[4/5] overflow-hidden grayscale-0 hover:grayscale-0 transition-all duration-700 bg-zinc-800 rounded-sm shadow-xl">
+            <div className="absolute -left-4 -top-4 w-full h-full border-2 border-yellow-400 z-0"></div>
+            <div className="relative z-10 aspect-[4/5] overflow-hidden transition-all duration-700 bg-zinc-800 rounded-sm shadow-xl">
                <img 
                  src={profileImage}
                  className="w-full h-full object-cover" 
-                 alt="Komal Datta Tatke" 
+                 alt="Komal Tatke" 
                  onError={(e) => {
                    // Generic fallback that matches the aesthetic if the local file isn't found
                    e.target.src = "https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?q=80&w=1000&auto=format&fit=crop";
@@ -333,15 +321,17 @@ const App = () => {
           </div>
           <div className="flex-1 space-y-8">
             <div>
-              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">Hi, I am <span className="text-red-600">Komal Datta Tatke</span></h2>
-              <p className={`text-lg md:text-xl font-light leading-relaxed ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                Passionate creator specializing in Video Editing, Motion Design, and AI-driven Visual Storytelling. With over six years of professional experience, I turn ideas into meaningful visual narratives through thoughtful execution and creative precision.
-              </p>
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">Hi, I am <span className="text-yellow-400">Komal Tatke</span></h2>
+              <div className={`space-y-4 text-lg md:text-xl font-light leading-relaxed ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                <p>Passionate creator specializing in Video Editing, Motion Design, and AI-driven Visual Storytelling, with over four years of professional experience shaping ideas into compelling visual narratives.</p>
+                <p>My work exists at the intersection of creativity and technology, where I blend storytelling instinct with evolving AI tools to create visuals that feel both contemporary and meaningful.</p>
+                <p>With a keen eye for detail, rhythm, and composition, I approach every project with a balance of creative exploration and strategic thinking so each piece aligns with its narrative while standing out in a fast-paced digital landscape.</p>
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-4 border-t border-zinc-800 pt-8">
-              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-red-600"></div><div><p className="text-2xl font-black">6+ yrs</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Experience</p></div></div>
-              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-red-600"></div><div><p className="text-2xl font-black">500+</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Videos Done</p></div></div>
-              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-red-600"></div><div><p className="text-2xl font-black">50+</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Brands</p></div></div>
+              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-yellow-400"></div><div><p className="text-2xl font-black">4+ yrs</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Experience</p></div></div>
+              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-yellow-400"></div><div><p className="text-2xl font-black">500+</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Videos Done</p></div></div>
+              <div className="flex items-center gap-4"><div className="w-1 h-12 bg-yellow-400"></div><div><p className="text-2xl font-black">50+</p><p className="text-[10px] uppercase tracking-widest text-zinc-500">Brands</p></div></div>
             </div>
           </div>
         </div>
@@ -350,14 +340,14 @@ const App = () => {
       {/* EXPERTISE SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-10">
-          <ArrowUpRight className="text-red-600" size={32} />
+          <ArrowUpRight className="text-yellow-400" size={32} />
           <h3 className="text-3xl font-black uppercase tracking-tighter">Expertise & Tools</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="grid grid-cols-1 gap-y-4">
             {expertise.map((item, i) => (
               <div key={i} className="flex items-center gap-4">
-                 <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
+                 <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                  <p className={`text-lg font-medium tracking-tight ${isDarkMode ? 'text-zinc-300' : 'text-zinc-700'}`}>{item}</p>
               </div>
             ))}
@@ -379,10 +369,10 @@ const App = () => {
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
           <div className="flex items-center gap-3">
-            <Mic className="text-red-600" size={32} />
-            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Podcast <span className="text-red-600 italic">Highlights</span></h3>
+            <Mic className="text-yellow-400" size={32} />
+            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Podcast <span className="text-yellow-400 italic">Highlights</span></h3>
           </div>
-          <a href="https://drive.google.com/drive/folders/1o37O-yUNTxqv00tyQm4bpaF1TzxBKny0" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-red-600/30 hover:border-red-600' : 'border-red-200 hover:border-red-600'}`}>
+          <a href="https://drive.google.com/drive/folders/1o37O-yUNTxqv00tyQm4bpaF1TzxBKny0" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-yellow-400/30 hover:border-yellow-400' : 'border-yellow-200 hover:border-yellow-400'}`}>
             View Full Library <ExternalLink size={14} />
           </a>
         </div>
@@ -395,13 +385,13 @@ const App = () => {
                   thumb={pod.thumb}
                   alt={pod.title}
                   fallback={fallbackImg}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="p-4 bg-red-600 rounded-full text-white shadow-xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={24} fill="currentColor" /></div>
+                  <div className="p-4 bg-yellow-400 rounded-full text-white shadow-xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={24} fill="currentColor" /></div>
                 </div>
               </div>
-              <p className="px-2 font-bold uppercase tracking-tight text-xs group-hover:text-red-600 transition-colors">{pod.title}</p>
+              <p className="px-2 font-bold uppercase tracking-tight text-xs group-hover:text-yellow-400 transition-colors">{pod.title}</p>
             </div>
           ))}
         </div>
@@ -410,8 +400,8 @@ const App = () => {
       {/* 2. MOTION GRAPHICS SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <ArrowUpRight className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Motion <span className="text-red-600">Graphics</span></h3>
+          <ArrowUpRight className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Motion <span className="text-yellow-400">Graphics</span></h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {motionGraphics.map((item) => (
@@ -422,13 +412,13 @@ const App = () => {
                   thumb={item.thumb}
                   alt={item.title}
                   fallback={fallbackImg}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-full object-cover transition-all duration-700"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><Play size={24} className="text-white fill-white" /></div>
               </div>
               <div className="flex-1 flex flex-col justify-center">
-                <p className="text-red-600 text-[10px] uppercase font-black tracking-widest mb-2">{item.category}</p>
-                <h4 className="text-xl font-bold uppercase tracking-tight leading-tight">{item.title}</h4>
+                <p className="text-yellow-400 text-lg md:text-xl uppercase font-black tracking-wide mb-2">{item.category}</p>
+                <h4 className="text-base md:text-lg font-semibold uppercase tracking-tight leading-tight">{item.title}</h4>
               </div>
             </div>
           ))}
@@ -438,24 +428,24 @@ const App = () => {
       {/* 3. TESTIMONIALS SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <Quote className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Client <span className="text-red-600 italic">Testimonials</span></h3>
+          <Quote className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter"><span className="text-yellow-400 italic">Testimonials</span></h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((test) => (
             <div key={test.id} onClick={() => openProject(test)} className="group cursor-pointer space-y-6">
-              <div className={`aspect-video w-full overflow-hidden rounded-xl border-2 transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-red-600/50' : 'border-zinc-200 bg-white group-hover:border-red-600/30 shadow-sm'}`}>
+              <div className={`aspect-video w-full overflow-hidden rounded-xl border-2 transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-yellow-400/50' : 'border-zinc-200 bg-white group-hover:border-yellow-400/30 shadow-sm'}`}>
                 <ThumbnailImage
                   url={test.url}
                   thumb={test.thumb}
                   alt={test.title}
                   fallback={fallbackImg}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100"
+                  className="w-full h-full object-cover transition-all duration-700 opacity-80 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><div className="p-4 bg-white text-red-600 rounded-full shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={20} fill="currentColor" /></div></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><div className="p-4 bg-white text-yellow-400 rounded-full shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={20} fill="currentColor" /></div></div>
               </div>
-              <div className="px-2 border-l-2 border-red-600/20 group-hover:border-red-600 transition-colors pl-4">
-                <h4 className="font-bold uppercase tracking-tight text-lg group-hover:text-red-600 transition-colors leading-none">{test.title}</h4>
+              <div className="px-2 border-l-2 border-yellow-400/20 group-hover:border-yellow-400 transition-colors pl-4">
+                <h4 className="font-bold uppercase tracking-tight text-lg group-hover:text-yellow-400 transition-colors leading-none">{test.title}</h4>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mt-2 font-black">{test.client}</p>
               </div>
             </div>
@@ -466,13 +456,13 @@ const App = () => {
       {/* 4. BFSI SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <Landmark className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">BFSI <span className="text-red-600 italic">Campaigns</span></h3>
+          <Landmark className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">BFSI <span className="text-yellow-400 italic">Campaigns</span></h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {bfsiProjects.map((project) => (
             <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
+              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
                 <ThumbnailImage
                   url={project.url}
                   thumb={project.thumb}
@@ -483,8 +473,8 @@ const App = () => {
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
-                <p className="text-red-600 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
-                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors">{project.title}</h4>
+                <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
+                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4>
               </div>
             </div>
           ))}
@@ -495,8 +485,8 @@ const App = () => {
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
           <div className="flex items-center gap-3">
-            <Disc className="text-red-600" size={32} />
-            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Music & <span className="text-red-600 italic">Visuals</span></h3>
+            <Disc className="text-yellow-400" size={32} />
+            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter"><span className="text-yellow-400 italic">Music</span></h3>
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -507,11 +497,11 @@ const App = () => {
                 thumb={music.thumb}
                 alt={music.title}
                 fallback={fallbackImg}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
                 <p className="text-[10px] font-black uppercase tracking-tighter text-white">{music.title}</p>
-                <div className="mt-2 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center"><Play size={10} className="fill-white text-white" /></div>
+                <div className="mt-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center"><Play size={10} className="fill-white text-white" /></div>
               </div>
             </div>
           ))}
@@ -521,13 +511,13 @@ const App = () => {
       {/* 6. LICIOUS SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <ShoppingBag className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Licious <span className="text-red-600 italic">Campaigns</span></h3>
+          <ShoppingBag className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter"><span className="text-yellow-400 italic">Food</span> Campaigns</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {liciousProjects.map((project) => (
             <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
+              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
                 <ThumbnailImage
                   url={project.url}
                   thumb={project.thumb}
@@ -538,8 +528,8 @@ const App = () => {
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
-                <p className="text-red-600 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
-                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors">{project.title}</h4>
+                <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
+                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4>
               </div>
             </div>
           ))}
@@ -549,25 +539,25 @@ const App = () => {
       {/* 7. FASHION SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <Sparkles className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Fashion <span className="text-red-600 italic">Visuals</span></h3>
+          <Sparkles className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Fashion <span className="text-yellow-400 italic">Visuals</span></h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {fashionProjects.map((project) => (
             <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className={`aspect-[4/5] w-full overflow-hidden rounded-xl border-2 transition-all duration-700 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-red-600/50' : 'border-zinc-200 bg-white group-hover:border-red-600/30'}`}>
+              <div className={`aspect-[4/5] w-full overflow-hidden rounded-xl border-2 transition-all duration-700 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900 group-hover:border-yellow-400/50' : 'border-zinc-200 bg-white group-hover:border-yellow-400/30'}`}>
                 <ThumbnailImage
                   url={project.url}
                   thumb={project.thumb}
                   alt={project.title}
                   fallback={fallbackImg}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-105 group-hover:scale-100"
+                  className="w-full h-full object-cover transition-all duration-700 opacity-80 group-hover:opacity-100 scale-105 group-hover:scale-100"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={40} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6 px-2">
-                <p className="text-red-600 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
-                <h4 className="text-xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors leading-tight">{project.title}</h4>
+                <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
+                <h4 className="text-xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors leading-tight">{project.title}</h4>
               </div>
             </div>
           ))}
@@ -577,13 +567,13 @@ const App = () => {
       {/* 8. CORPORATE SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
-          <Briefcase className="text-red-600" size={32} />
-          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Corporate <span className="text-red-600 italic">Solutions</span></h3>
+          <Briefcase className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Corporate <span className="text-yellow-400 italic">Solutions</span></h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {corporateProjects.map((project) => (
             <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
+              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
                 <ThumbnailImage
                   url={project.url}
                   thumb={project.thumb}
@@ -594,25 +584,11 @@ const App = () => {
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
               </div>
               <div className="mt-6">
-                <p className="text-red-600 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
-                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors">{project.title}</h4>
+                <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
+                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4>
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* RESUME / EDUCATION */}
-      <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16">
-          <div>
-            <div className="flex items-center gap-3 mb-12"><ArrowUpRight className="text-red-600" size={32} /><h3 className="text-3xl font-black uppercase tracking-tighter">Education</h3></div>
-            <div className="space-y-10">{education.map((item, index) => (<div key={index} className={`relative pb-6 border-b transition-all group ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><div className="flex justify-between items-start"><div><h4 className="text-lg font-bold uppercase tracking-tight group-hover:text-red-500 transition-colors">{item.degree}</h4><p className="text-sm text-zinc-500 mt-1 uppercase tracking-widest">{item.institution}</p></div><span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-sm">{item.year}</span></div></div>))}</div>
-          </div>
-          <div>
-            <div className="flex items-center gap-3 mb-12"><ArrowUpRight className="text-red-600" size={32} /><h3 className="text-3xl font-black uppercase tracking-tighter">Experience</h3></div>
-            <div className="space-y-10">{experience.map((item, index) => (<div key={index} className={`relative pb-6 border-b transition-all group ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><div className="flex justify-between items-start"><div><h4 className="text-lg font-bold uppercase tracking-tight group-hover:text-red-500 transition-colors">{item.role}</h4><p className="text-sm text-zinc-500 mt-1 uppercase tracking-widest">{item.company}</p></div><span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-sm">{item.year}</span></div></div>))}</div>
-          </div>
         </div>
       </section>
 
@@ -622,7 +598,7 @@ const App = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {featuredProjects.map((project) => (
             <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
-              <div className="aspect-video w-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-sm">
+              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-sm">
                 <ThumbnailImage
                   url={project.url}
                   thumb={project.thumb}
@@ -630,11 +606,11 @@ const App = () => {
                   fallback={fallbackImg}
                   className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                 />
-                <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest z-10">Featured</div>
+                <div className="absolute top-4 left-4 bg-yellow-400 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest z-10">Featured</div>
               </div>
               <div className="mt-6 flex justify-between items-start">
-                <div><h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-red-600 transition-colors">{project.title}</h4></div>
-                <div className={`p-4 border rounded-full transition-all group-hover:bg-red-600 group-hover:border-red-600 group-hover:text-white ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><Play size={20} fill="currentColor" /></div>
+                <div><h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4></div>
+                <div className={`p-4 border rounded-full transition-all group-hover:bg-yellow-400 group-hover:border-yellow-400 group-hover:text-white ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}><Play size={20} fill="currentColor" /></div>
               </div>
             </div>
           ))}
@@ -647,12 +623,22 @@ const App = () => {
           <h3 className="text-2xl font-black uppercase tracking-tighter">Komal Tatke</h3>
           <p className="text-zinc-500 text-xs uppercase tracking-[0.4em] mt-2">Visual Designer & Video Editor</p>
         </div>
-        <div className="flex flex-col items-center md:items-end gap-2">
+        <div className="flex flex-col items-center md:items-end gap-3">
           <div className="flex gap-8 text-sm uppercase tracking-widest font-bold">
-             <a href={`mailto:${contactInfo.email}`} className="hover:text-red-600 transition-colors">Email</a>
-             <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">LinkedIn</a>
+             <a href={`mailto:${contactInfo.email}`} className="hover:text-yellow-400 transition-colors">Email</a>
+             <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">LinkedIn</a>
           </div>
-          <p className="text-xs font-mono text-zinc-500 mt-2 tracking-widest">{contactInfo.phone}</p>
+          <div className="space-y-1 text-center md:text-right">
+            <a href={`mailto:${contactInfo.email}`} className="block text-sm font-mono text-zinc-300 break-all hover:text-yellow-400 transition-colors">
+              <span className="text-zinc-500 mr-2">Email:</span>{contactInfo.email}
+            </a>
+            <a href={`tel:${contactInfo.phone}`} className="block text-sm font-mono text-zinc-300 tracking-wider hover:text-yellow-400 transition-colors">
+              <span className="text-zinc-500 mr-2">Phone:</span>{contactInfo.phone}
+            </a>
+            <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="block text-sm font-mono text-zinc-300 break-all hover:text-yellow-400 transition-colors">
+              <span className="text-zinc-500 mr-2">LinkedIn:</span>{contactInfo.linkedin}
+            </a>
+          </div>
         </div>
         <div className="text-[10px] uppercase tracking-widest text-zinc-600">(c) 2026 Crafted for Impact.</div>
       </footer>
@@ -678,3 +664,5 @@ const App = () => {
 };
 
 export default App;
+
+
