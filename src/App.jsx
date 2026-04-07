@@ -252,7 +252,7 @@ const App = () => {
   ];
 
   return (
-    <div className={`hq-grain ${isDarkMode ? 'hq-grain-dark bg-zinc-950 text-white' : 'hq-grain-light bg-stone-50 text-zinc-900'} min-h-screen font-sans transition-colors duration-500 overflow-x-hidden pb-20`}>
+    <div className={`hq-grain ${isDarkMode ? 'hq-grain-dark text-white' : 'hq-grain-light text-zinc-900'} min-h-screen font-sans transition-colors duration-500 overflow-x-hidden pb-20`}>
       
       {/* HERO SECTION */}
       <section className={`relative h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
@@ -417,8 +417,7 @@ const App = () => {
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><Play size={24} className="text-white fill-white" /></div>
               </div>
               <div className="flex-1 flex flex-col justify-center">
-                <p className="text-yellow-400 text-lg md:text-xl uppercase font-black tracking-wide mb-2">{item.category}</p>
-                <h4 className="text-base md:text-lg font-semibold uppercase tracking-tight leading-tight">{item.title}</h4>
+                <h4 className="text-lg md:text-xl font-semibold uppercase tracking-tight leading-tight text-yellow-400">{item.title}</h4>
               </div>
             </div>
           ))}
@@ -618,7 +617,7 @@ const App = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className={`py-20 px-6 md:px-12 border-t flex flex-col md:flex-row justify-between items-center gap-8 ${isDarkMode ? 'border-zinc-800 bg-zinc-950' : 'border-zinc-200 bg-stone-100'}`}>
+      <footer className={`py-20 px-6 md:px-12 border-t flex flex-col md:flex-row justify-between items-center gap-8 ${isDarkMode ? 'border-zinc-700/70 bg-black/45 backdrop-blur-[1px]' : 'border-zinc-300/70 bg-white/70 backdrop-blur-[1px]'}`}>
         <div className="text-center md:text-left">
           <h3 className="text-2xl font-black uppercase tracking-tighter">Komal Tatke</h3>
           <p className="text-zinc-500 text-xs uppercase tracking-[0.4em] mt-2">Visual Designer & Video Editor</p>
