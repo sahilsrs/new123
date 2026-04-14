@@ -172,6 +172,7 @@ const App = () => {
 
   // 5. Music
   const musicProjects = [
+    { id: "music-13", title: "YouTube Music Feature", url: "https://www.youtube.com/watch?v=drjcNCUxnKw&list=RDdrjcNCUxnKw&start_radio=1" },
     { id: "music-1", title: "AT Azaad Visual", url: "https://www.instagram.com/reel/DWnhtvUIUnY/?igsh=MWUzcmo4bWptb2M4NQ==", thumb: "/thumbnails/music-1.jpg" },
     { id: "music-2", title: "Rhythmic Flow", url: "https://www.instagram.com/reels/DVTZjS4DJ8y/", thumb: "/thumbnails/music-2.jpg" },
     { id: "music-3", title: "Label Showcase", url: "https://www.instagram.com/reel/DUGB0FWjJQg/?igsh=dm95ZnpucHhvODVv", thumb: "/thumbnails/music-3.jpg" },
