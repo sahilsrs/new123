@@ -68,12 +68,37 @@ const getThumbnailSources = ({ url, thumb, fallback = DEFAULT_FALLBACK_IMG }) =>
   return [...new Set(sources.filter(Boolean))];
 };
 
+const withQueryParams = (url, params) => {
+  const [base, query = ""] = url.split("?");
+  const searchParams = new URLSearchParams(query);
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    searchParams.set(key, value);
+  });
+
+  const nextQuery = searchParams.toString();
+  return nextQuery ? `${base}?${nextQuery}` : base;
+};
+
+const getPlatformType = (url = "") => {
+  if (getDriveId(url)) return "drive";
+  if (getYoutubeId(url)) return "youtube";
+  if (url.includes("instagram.com")) return "instagram";
+  return "web";
+};
+
 const getPlayableUrl = (url = "") => {
   if (!url) return url;
 
   const youtubeId = getYoutubeId(url);
   if (youtubeId) {
-    return `https://www.youtube.com/embed/${youtubeId}`;
+    return withQueryParams(`https://www.youtube.com/embed/${youtubeId}`, {
+      autoplay: "1",
+      rel: "0",
+      modestbranding: "1",
+      playsinline: "1"
+    });
   }
 
   const driveId = getDriveId(url);
@@ -85,7 +110,33 @@ const getPlayableUrl = (url = "") => {
     const instaMatch = url.match(/instagram\.com\/(reels?|p)\/([^/?#]+)/);
     if (instaMatch?.[1] && instaMatch?.[2]) {
       const contentType = instaMatch[1] === "reels" ? "reel" : instaMatch[1];
-      return `https://www.instagram.com/${contentType}/${instaMatch[2]}/embed`;
+      return withQueryParams(`https://www.instagram.com/${contentType}/${instaMatch[2]}/embed/captioned/`, {
+        autoplay: "1"
+      });
+    }
+  }
+
+  return url;
+};
+
+const getSourceUrl = (url = "") => {
+  if (!url) return url;
+
+  const youtubeId = getYoutubeId(url);
+  if (youtubeId) {
+    return `https://www.youtube.com/watch?v=${youtubeId}`;
+  }
+
+  const driveId = getDriveId(url);
+  if (driveId) {
+    return `https://drive.google.com/file/d/${driveId}/view`;
+  }
+
+  if (url.includes("instagram.com")) {
+    const instaMatch = url.match(/instagram\.com\/(reels?|p)\/([^/?#]+)/);
+    if (instaMatch?.[1] && instaMatch?.[2]) {
+      const contentType = instaMatch[1] === "reels" ? "reel" : instaMatch[1];
+      return `https://www.instagram.com/${contentType}/${instaMatch[2]}/`;
     }
   }
 
@@ -122,6 +173,7 @@ const ThumbnailImage = ({ url, thumb, alt, className, fallback = DEFAULT_FALLBAC
 
 const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [activePodcastId, setActivePodcastId] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const fallbackImg = DEFAULT_FALLBACK_IMG;
@@ -134,10 +186,17 @@ const App = () => {
   };
 
   const openProject = (project, extra = {}) => {
+    const sourceUrl = project.videoUrl || project.url;
+    const normalizedSourceUrl = getSourceUrl(sourceUrl);
+    const platformType = getPlatformType(sourceUrl);
+    setActivePodcastId(null);
+
     setSelectedProject({
       ...project,
       ...extra,
-      videoUrl: getPlayableUrl(project.videoUrl || project.url)
+      platformType,
+      sourceUrl: normalizedSourceUrl,
+      videoUrl: getPlayableUrl(sourceUrl)
     });
   };
 
@@ -354,23 +413,58 @@ const App = () => {
           </a>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {podcasts.map((pod) => (
-            <div key={pod.id} onClick={() => openProject(pod, { isVertical: true })} className="group cursor-pointer space-y-4">
-              <div className={`aspect-[9/16] w-full overflow-hidden rounded-2xl border transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900' : 'border-zinc-200 bg-white'}`}>
-                <ThumbnailImage
-                  url={pod.url}
-                  thumb={pod.thumb}
-                  alt={pod.title}
-                  fallback={fallbackImg}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="p-4 bg-yellow-400 rounded-full text-white shadow-xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={24} fill="currentColor" /></div>
+          {podcasts.map((pod) => {
+            const isActive = activePodcastId === pod.id;
+            const playableUrl = getPlayableUrl(pod.url);
+
+            return (
+              <div key={pod.id} className="space-y-4">
+                <div
+                  onClick={() => setActivePodcastId((current) => (current === pod.id ? null : pod.id))}
+                  className="group cursor-pointer"
+                >
+                  <div className={`aspect-[9/16] w-full overflow-hidden rounded-2xl border transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900' : 'border-zinc-200 bg-white'}`}>
+                    {isActive ? (
+                      <iframe
+                        src={playableUrl}
+                        title={pod.title}
+                        className="w-full h-full"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+                        allowFullScreen
+                        frameBorder="0"
+                      ></iframe>
+                    ) : (
+                      <>
+                        <ThumbnailImage
+                          url={pod.url}
+                          thumb={pod.thumb}
+                          alt={pod.title}
+                          fallback={fallbackImg}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <div className="p-4 bg-yellow-400 rounded-full text-white shadow-xl scale-75 group-hover:scale-100 transition-transform duration-500"><Play size={24} fill="currentColor" /></div>
+                        </div>
+                      </>
+                    )}
+                    {isActive && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActivePodcastId(null);
+                        }}
+                        className="absolute right-2 top-2 z-20 rounded-full bg-black/60 p-1.5 text-white hover:rotate-90 transition-transform"
+                      >
+                        <X size={14} />
+                      </button>
+                    )}
+                  </div>
                 </div>
+                <p className={`px-2 font-bold uppercase tracking-tight text-xs transition-colors ${isActive ? 'text-yellow-400' : 'hover:text-yellow-400'}`}>{pod.title}</p>
               </div>
-              <p className="px-2 font-bold uppercase tracking-tight text-xs group-hover:text-yellow-400 transition-colors">{pod.title}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -599,8 +693,25 @@ const App = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
           <div className="absolute inset-0 bg-black/98 backdrop-blur-md" onClick={() => setSelectedProject(null)}></div>
           <div className={`relative w-full z-10 border border-zinc-800 shadow-2xl overflow-hidden bg-zinc-950 ${selectedProject.isVertical ? 'max-w-[400px] aspect-[9/16]' : 'max-w-5xl aspect-video'}`}>
-            <button onClick={() => setSelectedProject(null)} className="absolute -top-10 right-0 text-white hover:rotate-90 transition-transform"><X size={24} /></button>
-            <div className="w-full h-full bg-black"><iframe src={selectedProject.videoUrl || selectedProject.url} className="w-full h-full" allow="autoplay; fullscreen" frameBorder="0"></iframe></div>
+            <a
+              href={selectedProject.sourceUrl || selectedProject.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute left-3 top-3 z-20 inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 text-[10px] uppercase tracking-widest text-zinc-200 hover:text-yellow-400 transition-colors"
+            >
+              Open Video <ExternalLink size={14} />
+            </a>
+            <button onClick={() => setSelectedProject(null)} className="absolute right-3 top-3 z-20 rounded-full bg-black/60 p-2 text-white hover:rotate-90 transition-transform"><X size={20} /></button>
+            <div className="w-full h-full bg-black">
+              <iframe
+                src={selectedProject.videoUrl || selectedProject.url}
+                title={selectedProject.title || "Project video"}
+                className="w-full h-full"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
+            </div>
             {!selectedProject.isVertical && (
               <div className="p-8 bg-zinc-950 border-t border-zinc-800 text-white">
                 <h4 className="text-3xl font-black uppercase tracking-tight mb-2">{selectedProject.title}</h4>
