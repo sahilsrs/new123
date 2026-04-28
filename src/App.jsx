@@ -81,6 +81,13 @@ const withQueryParams = (url, params) => {
   return nextQuery ? `${base}?${nextQuery}` : base;
 };
 
+const getSiteOrigin = () => {
+  if (typeof window === "undefined") return "";
+  const origin = window.location?.origin;
+  if (!origin || origin === "null") return "";
+  return origin;
+};
+
 const getPlatformType = (url = "") => {
   if (getDriveId(url)) return "drive";
   if (getYoutubeId(url)) return "youtube";
@@ -90,6 +97,7 @@ const getPlatformType = (url = "") => {
 
 const getPlayableUrl = (url = "") => {
   if (!url) return url;
+  const siteOrigin = getSiteOrigin();
 
   const youtubeId = getYoutubeId(url);
   if (youtubeId) {
@@ -97,7 +105,10 @@ const getPlayableUrl = (url = "") => {
       autoplay: "1",
       rel: "0",
       modestbranding: "1",
-      playsinline: "1"
+      playsinline: "1",
+      mute: "1",
+      origin: siteOrigin || undefined,
+      widget_referrer: siteOrigin || undefined
     });
   }
 
@@ -171,6 +182,28 @@ const ThumbnailImage = ({ url, thumb, alt, className, fallback = DEFAULT_FALLBAC
   );
 };
 
+const EmbeddedPlayer = ({ project, className, title }) => {
+  const mediaUrl = project?.videoUrl || project?.url || "";
+  const sourceUrl = project?.sourceUrl || mediaUrl;
+  const platformType = project?.platformType || getPlatformType(sourceUrl);
+  const iframeUrl =
+    platformType === "drive"
+      ? getPlayableUrl(sourceUrl)
+      : mediaUrl;
+
+  return (
+    <iframe
+      key={iframeUrl}
+      src={iframeUrl}
+      title={title}
+      className={className}
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+      referrerPolicy="strict-origin-when-cross-origin"
+      frameBorder="0"
+    ></iframe>
+  );
+};
+
 const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activePodcastId, setActivePodcastId] = useState(null);
@@ -185,19 +218,11 @@ const App = () => {
     linkedin: "https://www.linkedin.com/in/komal-tatke-8a8192236/"
   };
 
-  const openProject = (project, extra = {}) => {
+  const openProject = (project) => {
     const sourceUrl = project.videoUrl || project.url;
     const normalizedSourceUrl = getSourceUrl(sourceUrl);
-    const platformType = getPlatformType(sourceUrl);
     setActivePodcastId(null);
-
-    setSelectedProject({
-      ...project,
-      ...extra,
-      platformType,
-      sourceUrl: normalizedSourceUrl,
-      videoUrl: getPlayableUrl(sourceUrl)
-    });
+    window.location.href = normalizedSourceUrl;
   };
 
   // 1. Podcast Highlights
@@ -231,7 +256,6 @@ const App = () => {
 
   // 5. Music
   const musicProjects = [
-    { id: "music-13", title: "YouTube Music Feature", url: "https://www.youtube.com/watch?v=drjcNCUxnKw&list=RDdrjcNCUxnKw&start_radio=1" },
     { id: "music-1", title: "AT Azaad Visual", url: "https://www.instagram.com/reel/DWnhtvUIUnY/?igsh=MWUzcmo4bWptb2M4NQ==", thumb: "/thumbnails/music-1.jpg" },
     { id: "music-2", title: "Rhythmic Flow", url: "https://www.instagram.com/reels/DVTZjS4DJ8y/", thumb: "/thumbnails/music-2.jpg" },
     { id: "music-3", title: "Label Showcase", url: "https://www.instagram.com/reel/DUGB0FWjJQg/?igsh=dm95ZnpucHhvODVv", thumb: "/thumbnails/music-3.jpg" },
@@ -246,20 +270,25 @@ const App = () => {
     { id: "music-12", title: "Music Visual #12", url: "https://www.instagram.com/p/DUlEjiNDGI8/", thumb: "/thumbnails/music-12.jpg" }
   ];
 
-  // 6. Licious
+  // 6. Drools
+  const droolsProjects = [
+    { id: "drools-1", title: "Drools Brand Showcase", category: "Food / Commercial", url: "https://drive.google.com/file/d/1vSLFCrqKRd1DOiC1AY8HJ9col-_lgI86/view?usp=sharing", thumb: "/thumbnails/drools-1.jpg" }
+  ];
+
+  // 7. Licious
   const liciousProjects = [
     { id: "licious-1", title: "Licious Brand Showcase", category: "Retail / Food Brand", url: "https://drive.google.com/file/d/1CUdlT4hQW76MyQdL647hH_p2XH_bftDO/view?usp=sharing", thumb: "/thumbnails/licious-1.jpg" },
     { id: "licious-2", title: "Licious Product Narrative", category: "Commercial / Editorial", url: "https://drive.google.com/file/d/1usUA8kWO_kv5tsJjIreNKDobeADdo_T2/view?usp=sharing", thumb: "/thumbnails/licious-2.jpg" }
   ];
 
-  // 7. Fashion
+  // 8. Fashion
   const fashionProjects = [
     { id: "fashion-1", title: "Cinematic Fashion Edit I", category: "Fashion / Lifestyle", url: "https://drive.google.com/file/d/1igcqQPy9YScTuelb40Nvwb5pfp-uKvRH/view?usp=sharing", thumb: "/thumbnails/fashion-1.jpg" },
     { id: "fashion-2", title: "Cinematic Fashion Edit II", category: "Fashion / Visuals", url: "https://drive.google.com/file/d/1XkwIXnIXKM9iWtRN55lSOa2e30oE3y0m/view?usp=sharing", thumb: "/thumbnails/fashion-2.jpg" },
     { id: "fashion-3", title: "Cinematic Fashion Edit III", category: "Fashion / Editorial", url: "https://drive.google.com/file/d/1dxgO9G-iiA3As--83xpH--_p0yYdLZXP/view?usp=sharing", thumb: "/thumbnails/fashion-3.jpg" }
   ];
 
-  // 8. Corporate
+  // 9. Corporate
   const corporateProjects = [
     {
       id: "corp-1",
@@ -408,7 +437,7 @@ const App = () => {
             <Mic className="text-yellow-400" size={32} />
             <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Podcast <span className="text-yellow-400 italic">Highlights</span></h3>
           </div>
-          <a href="https://drive.google.com/drive/folders/1t-00k01G3PWByBHh6Fgvj6GE9LFFRaRX" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-yellow-400/30 hover:border-yellow-400' : 'border-yellow-200 hover:border-yellow-400'}`}>
+          <a href="https://drive.google.com/drive/folders/1PaXQakOU9u2nYo_gBAXpZDXokTlQj7ZC" target="_blank" rel="noopener noreferrer" className={`group flex items-center gap-2 text-xs uppercase tracking-widest font-bold border-b-2 pb-1 transition-all ${isDarkMode ? 'border-yellow-400/30 hover:border-yellow-400' : 'border-yellow-200 hover:border-yellow-400'}`}>
             View Full Library <ExternalLink size={14} />
           </a>
         </div>
@@ -416,23 +445,28 @@ const App = () => {
           {podcasts.map((pod) => {
             const isActive = activePodcastId === pod.id;
             const playableUrl = getPlayableUrl(pod.url);
+            const playableProject = {
+              ...pod,
+              platformType: getPlatformType(pod.url),
+              sourceUrl: getSourceUrl(pod.url),
+              videoUrl: playableUrl
+            };
 
             return (
               <div key={pod.id} className="space-y-4">
                 <div
-                  onClick={() => setActivePodcastId((current) => (current === pod.id ? null : pod.id))}
+                  onClick={() => {
+                    window.location.href = getSourceUrl(pod.url);
+                  }}
                   className="group cursor-pointer"
                 >
                   <div className={`aspect-[9/16] w-full overflow-hidden rounded-2xl border transition-all duration-500 relative ${isDarkMode ? 'border-zinc-800 bg-zinc-900' : 'border-zinc-200 bg-white'}`}>
                     {isActive ? (
-                      <iframe
-                        src={playableUrl}
+                      <EmbeddedPlayer
+                        project={playableProject}
                         title={pod.title}
                         className="w-full h-full"
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
-                        allowFullScreen
-                        frameBorder="0"
-                      ></iframe>
+                      />
                     ) : (
                       <>
                         <ThumbnailImage
@@ -578,7 +612,35 @@ const App = () => {
         </div>
       </section>
 
-      {/* 6. LICIOUS SECTION */}
+      {/* 6. DROOLS SECTION */}
+      <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
+        <div className="flex items-center gap-3 mb-16">
+          <Film className="text-yellow-400" size={32} />
+          <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter"><span className="text-yellow-400 italic">Drools</span></h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {droolsProjects.map((project) => (
+            <div key={project.id} onClick={() => openProject(project)} className="group cursor-pointer">
+              <div className="aspect-video w-full overflow-hidden transition-all duration-700 bg-zinc-900 border border-zinc-800 relative rounded-lg">
+                <ThumbnailImage
+                  url={project.url}
+                  thumb={project.thumb}
+                  alt={project.title}
+                  fallback={fallbackImg}
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Play size={48} className="text-white fill-white" /></div>
+              </div>
+              <div className="mt-6">
+                <p className="text-yellow-400 text-[10px] uppercase font-black tracking-widest mb-1">{project.category}</p>
+                <h4 className="text-2xl font-bold uppercase tracking-tight group-hover:text-yellow-400 transition-colors">{project.title}</h4>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. LICIOUS SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
           <ShoppingBag className="text-yellow-400" size={32} />
@@ -606,7 +668,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* 7. FASHION SECTION */}
+      {/* 8. FASHION SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
           <Sparkles className="text-yellow-400" size={32} />
@@ -634,7 +696,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* 8. CORPORATE SECTION */}
+      {/* 9. CORPORATE SECTION */}
       <section className={`py-24 px-6 md:px-12 max-w-6xl mx-auto border-b ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="flex items-center gap-3 mb-16">
           <Briefcase className="text-yellow-400" size={32} />
@@ -703,14 +765,11 @@ const App = () => {
             </a>
             <button onClick={() => setSelectedProject(null)} className="absolute right-3 top-3 z-20 rounded-full bg-black/60 p-2 text-white hover:rotate-90 transition-transform"><X size={20} /></button>
             <div className="w-full h-full bg-black">
-              <iframe
-                src={selectedProject.videoUrl || selectedProject.url}
+              <EmbeddedPlayer
+                project={selectedProject}
                 title={selectedProject.title || "Project video"}
                 className="w-full h-full"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
-                allowFullScreen
-                frameBorder="0"
-              ></iframe>
+              />
             </div>
             {!selectedProject.isVertical && (
               <div className="p-8 bg-zinc-950 border-t border-zinc-800 text-white">
